@@ -31,12 +31,11 @@ class FourInLineFE():
             print("Ingrese un nùmero entre 0 y 7")
         except Winner:
             self.game.winCondition = True
-            for i in range(8):
+            print("¡Ganaste!")
+            """ for i in range(8):
                 for j in range(8):
                     print(self.game.board[i][j], end="")
-                print("\n")
-            print("¡Ganaste!")
-
+                print("\n") """
 
 if __name__ == '__main__':
     FourInLineFE().run()

@@ -9,7 +9,7 @@ from fourInLineBEException import OutOfRange
 
 class TestFourInLineBE(unittest.TestCase):
 
-    def testCreateGame(self):
+    """ def testCreateGame(self):
         game = FourInLineBE()
         self.assertEqual(game.board,
                          [[' - ' for _ in range(8)] for _ in range(8)])
@@ -50,11 +50,11 @@ class TestFourInLineBE(unittest.TestCase):
     def testPlaceTokenVertcialHappy(self):
         game = FourInLineBE()
         for i in range(3):
-            game.board[7 - i][1] = 0
+            game.board[7 - i][0] = 0
         with self.assertRaises(Winner):
-            game.placeToken(1)
+            game.placeToken(0) """
 
-    def testPlaceTokenHorizontalHappy0(self):
+    """ def testPlaceTokenHorizontalHappy0(self):
         game = FourInLineBE()
         for i in range(3):
             game.board[7][i + 1] = 0
@@ -130,7 +130,7 @@ class TestFourInLineBE(unittest.TestCase):
         game.board[7][5] = 0
         game.board[7][6] = 0
         with self.assertRaises(Winner):
-            game.placeToken(4)
+            game.placeToken(4) """
 
     def testPlaceTokenHorizontalHappy51(self):
         game = FourInLineBE()
@@ -140,15 +140,15 @@ class TestFourInLineBE(unittest.TestCase):
         with self.assertRaises(Winner):
             game.placeToken(5)
 
-    def testPlaceTokenHorizontalHappy52(self):
+    """def testPlaceTokenHorizontalHappy52(self):
         game = FourInLineBE()
         game.board[7][3] = 0
         game.board[7][4] = 0
         game.board[7][6] = 0
         with self.assertRaises(Winner):
-            game.placeToken(5)
+            game.placeToken(5) """
 
-    def testPlaceTokenDiagonalHappy3DAB(self):
+"""     def testPlaceTokenDiagonalHappy3DAB(self):
         game = FourInLineBE()
         game.board[5][0] = 1
         game.board[6][0] = 1
@@ -231,7 +231,7 @@ class TestFourInLineBE(unittest.TestCase):
         game.board[7][3] = 0
         with self.assertRaises(Winner):
             game.placeToken(1)
-
+ """
 
 if __name__ == '__main__':
     unittest.main()

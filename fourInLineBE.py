@@ -30,10 +30,11 @@ class FourInLineBE:
             self.board[row][column] = self.token.colour
             if row <= 4:
                 self.checkForVerticalWinner(row, column)
-            self.checkForHorizontalWinner(row, column)
+            self.checkForHorizontalWinner(row)
             self.checkForDiagonalWinner(row, column)
             self.token.changeColour()
-        raise OutOfRange
+        else:
+            raise OutOfRange
 
     def emptySpace(self, column):
         for i in range(8):
@@ -41,13 +42,13 @@ class FourInLineBE:
                 return 7 - i
         raise Overflow('La columna está llena')
 
-    def checkForVerticalWinner(self, row, column):
+    """ def checkForVerticalWinner(self, row, column):
         contador = 0
         for i in range(3):
             if self.board[row + i + 1][column] == self.token.colour:
                 contador += 1
         if contador == 3:
-            raise Winner('Ganaste!')
+            raise Winner('Ganaste!') 
 
     def checkForHorizontalWinner(self, row, column):
         contador = 0
@@ -94,8 +95,8 @@ class FourInLineBE:
                 if self.board[row][column + i + 1] == self.token.colour:
                     contador = contador + 1
                 if contador == 3:
-                    raise Winner('Ganaste!')
-
+                    raise Winner('Ganaste!')   """
+ 
     def checkForDiagonalWinner(self, row, column):
         contador = 0
         if row in [0, 1, 2, 3, 4] and column in [0, 1, 2, 3, 4]:
@@ -170,24 +171,27 @@ class FourInLineBE:
                 if contador == 3:
                     raise Winner('Ganaste!')
 
-    def horizontal(self, column, row):
+    def checkForVerticalWinner(self, row, column):
+        contador = 0
+        for i in range(7 - row + 1):
+            if self.board[row + i][column] != self.token.colour:
+                contador = 0
+            contador += 1
+        if contador == 4:
+            raise Winner("Ganaste") 
+
+    def checkForHorizontalWinner(self, row):
         contador = 0
         for i in range(8):
-            if self.board[row][i] != self.board.token.colour:
-                contador = 0
+            if contador == 4:
+                raise Winner("Ganaste")
+                break 
+            if self.board[row][i] == self.token.colour:
+                contador += 1
                 continue
-            contador += 1
-        if contador == 4:
-            raise Winner("Ganaste")
+            contador = 0
+       
 
-    def vertical(self, column, row):
-        contador = 0
-        for i in range(7 - row):
-            if self.board[row + i][column] != self.board.token.colour:
-                contador = 0
-            contador += 1
-        if contador == 4:
-            raise Winner("Ganaste")
 
     def diagonal(self, row, column):  #chequear
         contador = 0
