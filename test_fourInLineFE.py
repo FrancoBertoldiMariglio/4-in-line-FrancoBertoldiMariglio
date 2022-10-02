@@ -27,8 +27,7 @@ class TestFourInLineFE(unittest.TestCase):
         with patch('builtins.input', return_value = 0):
             with patch('builtins.print') as patch_print:
                 game.play()
-                patch_print.assert_called_once_with('¡Ganaste!')
-
+                patch_print.assert_any_call('¡Ganaste!')
 
 if __name__ == '__main__':
     unittest.main()
