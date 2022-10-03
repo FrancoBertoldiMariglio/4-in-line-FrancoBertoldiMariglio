@@ -1,9 +1,7 @@
-from calendar import c
-from time import clock_getres
 from fourInLineBEException import Overflow
 from fourInLineBEException import Winner
-from fourInLineBEException import NotWinner
 from fourInLineBEException import OutOfRange
+
 
 class Token():
 
@@ -15,6 +13,7 @@ class Token():
             self.colour = 1
         elif self.colour == 1:
             self.colour = 0
+
 
 class FourInLineBE:
 
@@ -41,7 +40,7 @@ class FourInLineBE:
                 return 7 - i
 
         raise Overflow('La columna está llena')
- 
+
     def checkForVerticalWinner(self, column):
         contador = 0
         for i in range(8):
@@ -66,25 +65,21 @@ class FourInLineBE:
                 continue
             contador = 0
 
-    def cellToBeginPrincipal(row, column):
+    def cellToBeginPrincipal(self, row, column):
         if row >= column:
-            return [0, row - column]
-        return [column - row, 0]
+            return [row - column, 0]
+        return [0, column - row]
 
-    def cellToBeginSecundaria(row, column):
+    def cellToBeginSecundaria(self, row, column):
         if row >= 7 - column:
-            return [abs(7 - column - row), 7 ]
+            return [abs(7 - column - row), 7]
         return [0, column + row]
 
     def diagonalPrincipal(self, row, column):
-        vector_principal = [[5,0], [6,0], [7,0], [6,1], [7,1], [7,2], [0,5], [0,6], [0,7], [1,6], [1,7], [2,7]] 
+        vector_principal = [[5, 0], [6, 0], [7, 0], [6, 1], [7, 1], [7, 2],
+                            [0, 5], [0, 6], [0, 7], [1, 6], [1, 7], [2, 7]]
         if [row, column] not in vector_principal:
-            if row >= column:
-                lugar_donde_empezar = [0, row - column]
-            else:   
-                lugar_donde_empezar = [column - row, 0]
-
-           # lugar_donde_empezar = self.cellToBeginPrincipal(row, column)
+            lugar_donde_empezar = self.cellToBeginPrincipal(row, column)
             i = lugar_donde_empezar[0]
             h = lugar_donde_empezar[1]
             contador = 0
@@ -99,14 +94,10 @@ class FourInLineBE:
                 h += 1
 
     def diagonalSecundario(self, row, column):
-        vector_secundario = [[0,0], [0,1], [0,2], [1,0], [1,1], [2,0], [7,5], [7,6], [7,7], [6,6], [6,7], [5,7]]
+        vector_secundario = [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [2, 0],
+                             [7, 5], [7, 6], [7, 7], [6, 6], [6, 7], [5, 7]]
         if [row, column] not in vector_secundario:
-            if row >= 7 - column:
-                lugar_donde_empezar = [abs(7 - column - row), 7 ]
-            else:
-                lugar_donde_empezar = [0, column + row]
-
-            #lugar_donde_empezar = self.cellToBeginSecundaria(row, column)
+            lugar_donde_empezar = self.cellToBeginSecundaria(row, column)
             i = lugar_donde_empezar[0]
             h = lugar_donde_empezar[1]
             contador = 0
@@ -118,75 +109,8 @@ class FourInLineBE:
                 if contador == 4:
                     raise Winner('Ganaste!')
                 i += 1
-                h -= 1      
+                h -= 1
 
-    def checkForDiagonalWinner(self, row, column):  
+    def checkForDiagonalWinner(self, row, column):
         self.diagonalPrincipal(row, column)
         self.diagonalSecundario(row, column)
-            
-
-    """ def checkForDiagonalWinner(self, row, column):
-        contador = 0
-        if row in [0, 1, 2, 3, 4] and column in [0, 1, 2, 3, 4]:
-            for i in range(3):
-                if self.board[row + i + 1][column + i + 1] == self.token.colour:
-                    contador = contador + 1
-                if contador == 3:
-                    raise Winner('Ganaste!')
-
-        if row in [0, 1, 2, 3, 4] and column in [3, 4, 5, 6, 7]:
-            for i in range(3):
-                if self.board[row + i + 1][column - i - 1] == self.token.colour:
-                    contador = contador + 1
-                if contador == 3:
-                    raise Winner('Ganaste!')
-
-        if row in [3, 4, 5, 6, 7] and column in [0, 1, 2, 3, 4]:
-            for i in range(3):
-                if self.board[row - i - 1][column + i + 1] == self.token.colour:
-                    contador = contador + 1
-                if contador == 3:
-                    raise Winner('Ganaste!')
-
-        if row in [3, 4, 5, 6, 7] and column in [3, 4, 5, 6, 7]:
-            for i in range(3):
-                if self.board[row - i - 1][column - i - 1] == self.token.colour:
-                    contador = contador + 1
-                if contador == 3:
-                    raise Winner('Ganaste!')
-        contador = 0
-        if row in [2, 3, 4, 5, 6] and column in [1, 2, 3, 4, 5]:
-            if self.board[row + 1][column - 1] == self.token.colour:
-                contador = contador + 1
-            for i in range(2):
-                if self.board[row - i - 1][column + i + 1] == self.token.colour:
-                    contador = contador + 1
-                if contador == 3:
-                    raise Winner('Ganaste!')
-        contador = 0
-        if row in [2, 3, 4, 5, 6] and column in [2, 3, 4, 5, 6]:
-            if self.board[row + 1][column + 1] == self.token.colour:
-                contador = contador + 1
-            for i in range(2):
-                if self.board[row - i - 1][column - i - 1] == self.token.colour:
-                    contador = contador + 1
-                if contador == 3:
-                    raise Winner('Ganaste!')
-        contador = 0
-        if row in [1, 2, 3, 4, 5] and column in [2, 3, 4, 5, 6]:
-            if self.board[row - 1][column + 1] == self.token.colour:
-                contador = contador + 1
-            for i in range(2):
-                if self.board[row + i + 1][column - i - 1] == self.token.colour:
-                    contador = contador + 1
-                if contador == 3:
-                    raise Winner('Ganaste!')
-        contador = 0
-        if row in [1, 2, 3, 4, 5] and column in [1, 2, 3, 4, 5]:
-            if self.board[row - 1][column - 1] == self.token.colour:
-                contador = contador + 1
-            for i in range(2):
-                if self.board[row + i + 1][column + i + 1] == self.token.colour:
-                    contador = contador + 1
-                if contador == 3:
-                    raise Winner('Ganaste!') """

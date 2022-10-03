@@ -3,13 +3,12 @@ from fourInLineBE import Token
 from fourInLineBE import FourInLineBE
 from fourInLineBEException import Overflow
 from fourInLineBEException import Winner
-from fourInLineBEException import NotWinner
 from fourInLineBEException import OutOfRange
 
 
 class TestFourInLineBE(unittest.TestCase):
 
-    """ def testCreateGame(self):
+    def testCreateGame(self):
         game = FourInLineBE()
         self.assertEqual(game.board,
                          [['-' for _ in range(8)] for _ in range(8)])
@@ -154,7 +153,7 @@ class TestFourInLineBE(unittest.TestCase):
         game.board[7][4] = 0
         game.board[7][6] = 0
         with self.assertRaises(Winner):
-            game.placeToken(5)  """
+            game.placeToken(5)
 
     def testPlaceTokenDiagonalHappy3DAB(self):
         game = FourInLineBE()

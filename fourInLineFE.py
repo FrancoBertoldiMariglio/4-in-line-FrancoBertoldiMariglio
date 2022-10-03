@@ -3,6 +3,7 @@ from fourInLineBE import FourInLineBE
 from fourInLineBEException import Winner
 from fourInLineBEException import OutOfRange
 
+
 class FourInLineFE():
 
     def __init__(self):
@@ -10,9 +11,9 @@ class FourInLineFE():
 
     def draw_board(self):
         for i in range(8):
-                for j in range(8):
-                    print("  " + str(self.game.board[i][j]) + "  ", end="")
-                print("\n")
+            for j in range(8):
+                print("  " + str(self.game.board[i][j]) + "  ", end="")
+            print("\n")
 
     def run(self):
         try:
@@ -34,6 +35,7 @@ class FourInLineFE():
             self.game.winCondition = True
             self.draw_board()
             print("¡Ganaste!")
+
 
 if __name__ == '__main__':
     FourInLineFE().run()
