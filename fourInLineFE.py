@@ -11,7 +11,7 @@ class FourInLineFE():
     def draw_board(self):
         for i in range(8):
                 for j in range(8):
-                    print(" " + str(self.game.board[i][j]) + " ", end="")
+                    print("  " + str(self.game.board[i][j]) + "  ", end="")
                 print("\n")
 
     def run(self):

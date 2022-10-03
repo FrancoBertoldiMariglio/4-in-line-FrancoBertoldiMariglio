@@ -9,10 +9,10 @@ from fourInLineBEException import OutOfRange
 
 class TestFourInLineBE(unittest.TestCase):
 
-    def testCreateGame(self):
+    """ def testCreateGame(self):
         game = FourInLineBE()
         self.assertEqual(game.board,
-                         [[' - ' for _ in range(8)] for _ in range(8)])
+                         [['-' for _ in range(8)] for _ in range(8)])
 
     def testToken(self):
         token = Token()
@@ -47,10 +47,18 @@ class TestFourInLineBE(unittest.TestCase):
         with self.assertRaises(Overflow):
             game.emptySpace(1)
 
-    def testPlaceTokenVertcialHappy(self):
+    def testPlaceTokenVertcialHappy1(self):
         game = FourInLineBE()
         for i in range(3):
             game.board[7 - i][0] = 0
+        with self.assertRaises(Winner):
+            game.placeToken(0)
+
+    def testPlaceTokenVertcialHappy2(self):
+        game = FourInLineBE()
+        game.board[7][0] = 1
+        for i in range(3):
+            game.board[6 - i][0] = 0
         with self.assertRaises(Winner):
             game.placeToken(0)
 
@@ -146,7 +154,7 @@ class TestFourInLineBE(unittest.TestCase):
         game.board[7][4] = 0
         game.board[7][6] = 0
         with self.assertRaises(Winner):
-            game.placeToken(5) 
+            game.placeToken(5)  """
 
     def testPlaceTokenDiagonalHappy3DAB(self):
         game = FourInLineBE()
