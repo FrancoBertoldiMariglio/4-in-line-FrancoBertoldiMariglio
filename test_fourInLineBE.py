@@ -3,7 +3,7 @@ from fourInLineBE import Token
 from fourInLineBE import FourInLineBE
 from fourInLineBEException import Overflow
 from fourInLineBEException import Winner
-from fourInLineBEException import OutOfRange
+from parameterized import parameterized
 
 
 class TestFourInLineBE(unittest.TestCase):
@@ -61,183 +61,189 @@ class TestFourInLineBE(unittest.TestCase):
         with self.assertRaises(Winner):
             game.placeToken(0)
 
-    def testPlaceTokenHorizontalHappy0(self):
+    @parameterized.expand([
+        (
+            1,
+            2,
+            3,
+            0,
+        ),
+        (
+            4,
+            5,
+            6,
+            7,
+        ),
+        (
+            0,
+            2,
+            3,
+            1,
+        ),
+        (
+            4,
+            5,
+            7,
+            6,
+        ),
+        (
+            0,
+            1,
+            3,
+            2,
+        ),
+        (
+            1,
+            3,
+            4,
+            2,
+        ),
+        (
+            1,
+            2,
+            4,
+            3,
+        ),
+        (
+            2,
+            4,
+            5,
+            3,
+        ),
+        (
+            2,
+            3,
+            5,
+            4,
+        ),
+        (
+            3,
+            5,
+            6,
+            4,
+        ),
+        (
+            4,
+            6,
+            7,
+            5,
+        ),
+        (
+            3,
+            4,
+            6,
+            5,
+        ),
+    ])
+    def testPlaceTokenHorizontalHappy0(self, a, b, c, d):
         game = FourInLineBE()
-        for i in range(3):
-            game.board[7][i + 1] = 0
+        game.board[7][a] = 0
+        game.board[7][b] = 0
+        game.board[7][c] = 0
         with self.assertRaises(Winner):
-            game.placeToken(0)
+            game.placeToken(d)
 
-    def testPlaceTokenHorizontalHappy7(self):
+    @parameterized.expand([
+        ([5, 0], [6, 0], [7, 0], [5, 1], [6, 2], [7, 3], 0),
+        ([5, 7], [6, 7], [7, 7], [5, 6], [6, 5], [7, 4], 7),
+    ])
+    def testPlaceTokenDiagonalHappy3DAB(self, a, b, c, d, e, f, g):
         game = FourInLineBE()
-        for i in range(3):
-            game.board[7][7 - i - 1] = 0
+        game.board[a[0]][a[1]] = 1
+        game.board[b[0]][b[1]] = 1
+        game.board[c[0]][c[1]] = 1
+        game.board[d[0]][d[1]] = 0
+        game.board[e[0]][e[1]] = 0
+        game.board[f[0]][f[1]] = 0
         with self.assertRaises(Winner):
-            game.placeToken(7)
+            game.placeToken(g)
 
-    def testPlaceTokenHorizontalHappy1(self):
+    @parameterized.expand([
+        (
+            [4, 0],
+            [5, 0],
+            [6, 0],
+            [7, 0],
+            [2, 1],
+            [1, 2],
+            [0, 3],
+            0,
+        ),
+        (
+            [4, 7],
+            [5, 7],
+            [6, 7],
+            [7, 7],
+            [2, 6],
+            [1, 5],
+            [0, 4],
+            7,
+        ),
+    ])
+    def testPlaceTokenDiagonalHappy3DAR(self, a, b, c, d, e, f, g, h):
         game = FourInLineBE()
-        game.board[7][0] = 0
-        game.board[7][2] = 0
-        game.board[7][3] = 0
+        game.board[a[0]][a[1]] = 1
+        game.board[b[0]][b[1]] = 1
+        game.board[c[0]][c[1]] = 1
+        game.board[d[0]][d[1]] = 1
+        game.board[e[0]][e[1]] = 0
+        game.board[f[0]][f[1]] = 0
+        game.board[g[0]][g[1]] = 0
         with self.assertRaises(Winner):
-            game.placeToken(1)
+            game.placeToken(h)
 
-    def testPlaceTokenHorizontalHappy6(self):
+    @parameterized.expand([
+        (
+            [7, 1],
+            [7, 0],
+            [5, 2],
+            [4, 3],
+            1,
+        ),
+        (
+            [7, 6],
+            [7, 7],
+            [5, 5],
+            [4, 4],
+            6,
+        ),
+    ])
+    def testPlaceTokenDiagonalHappy1IAB2DAR(self, a, b, c, d, e):
         game = FourInLineBE()
-        game.board[7][7] = 0
-        game.board[7][5] = 0
-        game.board[7][4] = 0
+        game.board[a[0]][a[1]] = 1
+        game.board[b[0]][b[1]] = 0
+        game.board[c[0]][c[1]] = 0
+        game.board[d[0]][d[1]] = 0
         with self.assertRaises(Winner):
-            game.placeToken(6)
+            game.placeToken(e)
 
-    def testPlaceTokenHorizontalHappy21(self):
+    @parameterized.expand([
+        (
+            [7, 6],
+            [6, 6],
+            [4, 7],
+            [6, 5],
+            [7, 4],
+            6,
+        ),
+        (
+            [7, 1],
+            [6, 1],
+            [4, 0],
+            [6, 2],
+            [7, 3],
+            1,
+        ),
+    ])
+    def testPlaceTokenDiagonalHappy2IAB1DAR(self, a, b, c, d, e, f):
         game = FourInLineBE()
-        game.board[7][0] = 0
-        game.board[7][1] = 0
-        game.board[7][3] = 0
+        game.board[a[0]][a[1]] = 1
+        game.board[b[0]][b[1]] = 1
+        game.board[c[0]][c[1]] = 0
+        game.board[d[0]][d[1]] = 0
+        game.board[e[0]][e[1]] = 0
         with self.assertRaises(Winner):
-            game.placeToken(2)
-
-    def testPlaceTokenHorizontalHappy22(self):
-        game = FourInLineBE()
-        game.board[7][1] = 0
-        game.board[7][3] = 0
-        game.board[7][4] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(2)
-
-    def testPlaceTokenHorizontalHappy31(self):
-        game = FourInLineBE()
-        game.board[7][1] = 0
-        game.board[7][2] = 0
-        game.board[7][4] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(3)
-
-    def testPlaceTokenHorizontalHappy32(self):
-        game = FourInLineBE()
-        game.board[7][2] = 0
-        game.board[7][4] = 0
-        game.board[7][5] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(3)
-
-    def testPlaceTokenHorizontalHappy41(self):
-        game = FourInLineBE()
-        game.board[7][2] = 0
-        game.board[7][3] = 0
-        game.board[7][5] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(4)
-
-    def testPlaceTokenHorizontalHappy42(self):
-        game = FourInLineBE()
-        game.board[7][3] = 0
-        game.board[7][5] = 0
-        game.board[7][6] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(4)
-
-    def testPlaceTokenHorizontalHappy51(self):
-        game = FourInLineBE()
-        game.board[7][4] = 0
-        game.board[7][6] = 0
-        game.board[7][7] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(5)
-
-    def testPlaceTokenHorizontalHappy52(self):
-        game = FourInLineBE()
-        game.board[7][3] = 0
-        game.board[7][4] = 0
-        game.board[7][6] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(5)
-
-    def testPlaceTokenDiagonalHappy3DAB(self):
-        game = FourInLineBE()
-        game.board[5][0] = 1
-        game.board[6][0] = 1
-        game.board[7][0] = 1
-        game.board[5][1] = 0
-        game.board[6][2] = 0
-        game.board[7][3] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(0)
-
-    def testPlaceTokenDiagonalHappy3IAB(self):
-        game = FourInLineBE()
-        game.board[5][7] = 1
-        game.board[6][7] = 1
-        game.board[7][7] = 1
-        game.board[5][6] = 0
-        game.board[6][5] = 0
-        game.board[7][4] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(7)
-
-    def testPlaceTokenDiagonalHappy3DAR(self):
-        game = FourInLineBE()
-        game.board[4][0] = 1
-        game.board[5][0] = 1
-        game.board[6][0] = 1
-        game.board[7][0] = 1
-        game.board[2][1] = 0
-        game.board[1][2] = 0
-        game.board[0][3] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(0)
-
-    def testPlaceTokenDiagonalHappy3IAR(self):
-        game = FourInLineBE()
-        game.board[4][7] = 1
-        game.board[5][7] = 1
-        game.board[6][7] = 1
-        game.board[7][7] = 1
-        game.board[2][6] = 0
-        game.board[1][5] = 0
-        game.board[0][4] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(7)
-
-    def testPlaceTokenDiagonalHappy1IAB2DAR(self):
-        game = FourInLineBE()
-        game.board[7][1] = 1
-        game.board[7][0] = 0
-        game.board[5][2] = 0
-        game.board[4][3] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(1)
-
-    def testPlaceTokenDiagonalHappy1DAB2IAR(self):
-        game = FourInLineBE()
-        game.board[7][6] = 1
-        game.board[7][7] = 0
-        game.board[5][5] = 0
-        game.board[4][4] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(6)
-
-    def testPlaceTokenDiagonalHappy2IAB1DAR(self):
-        game = FourInLineBE()
-        game.board[7][6] = 1
-        game.board[6][6] = 1
-        game.board[4][7] = 0
-        game.board[6][5] = 0
-        game.board[7][4] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(6)
-
-    def testPlaceTokenDiagonalHappy2DAB1IAR(self):
-        game = FourInLineBE()
-        game.board[7][1] = 1
-        game.board[6][1] = 1
-        game.board[4][0] = 0
-        game.board[6][2] = 0
-        game.board[7][3] = 0
-        with self.assertRaises(Winner):
-            game.placeToken(1)
+            game.placeToken(f)
 
 
 if __name__ == '__main__':

@@ -16,12 +16,10 @@ class FourInLineFE():
             print("\n")
 
     def run(self):
-        try:
-            while self.game.winCondition == False:
-                self.draw_board()
-                self.play()
-        except Winner:
-            Break
+
+        while not self.game.winCondition:
+            self.draw_board()
+            self.play()
 
     def play(self):
         try:

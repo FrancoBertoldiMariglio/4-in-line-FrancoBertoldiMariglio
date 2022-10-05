@@ -20,7 +20,7 @@ class TestFourInLineFE(unittest.TestCase):
                 patch_print.assert_called_once_with(
                     "Ingrese un nùmero entre 1 y 8")
 
-    def test_InputHappy(self):
+    def test_InputHappyWin(self):
         game = FourInLineFE()
         game.game.board[7][0] = 0
         game.game.board[6][0] = 0
